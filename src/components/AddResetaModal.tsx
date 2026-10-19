@@ -331,16 +331,16 @@ export const AddResetaModal: React.FC<AddResetaModalProps> = ({
         </div>
 
         {/* Scrollable Form Body */}
-        <form onSubmit={handleSubmit} className="p-5 overflow-y-auto space-y-5">
+        <form onSubmit={handleSubmit} className="p-3.5 sm:p-5 overflow-y-auto space-y-4 sm:space-y-5">
           {/* STEP 0: Family Member Assignment (Caregiver & Multi-Profile Support) */}
           {profiles.length > 0 && (
             <div className="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-1.5">
-              <div className="flex items-center justify-between">
-                <label className="block text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                  <Users className="w-3.5 h-3.5 text-teal-700" />
-                  <span>{isTl ? 'Para kanino itong reseta? (Pasyente / Miyembro):' : 'Who is this prescription for?'}</span>
+              <div className="flex flex-wrap items-center justify-between gap-1">
+                <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <Users className="w-3.5 h-3.5 text-teal-700 shrink-0" />
+                  <span>{isTl ? 'Para kanino itong reseta?' : 'Who is this prescription for?'}</span>
                 </label>
-                <span className="text-[11px] text-teal-800 font-bold">
+                <span className="text-[10px] sm:text-[11px] bg-teal-100 text-teal-900 font-bold px-2 py-0.5 rounded-full shrink-0">
                   {targetProfile?.name} ({targetProfile?.routine.breakfastTime} b-fast)
                 </span>
               </div>
@@ -422,7 +422,7 @@ export const AddResetaModal: React.FC<AddResetaModalProps> = ({
                     </div>
                     <div className="flex flex-col items-end shrink-0 gap-1">
                       <span
-                        className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${
+                        className={`text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full shrink-0 whitespace-nowrap ${
                           med.classification === 'Rx'
                             ? 'bg-rose-100 text-rose-800'
                             : 'bg-emerald-100 text-emerald-800'
@@ -430,7 +430,7 @@ export const AddResetaModal: React.FC<AddResetaModalProps> = ({
                       >
                         {med.classification === 'Rx' ? 'Rx Reseta' : 'OTC'}
                       </span>
-                      <span className="text-[11px] text-slate-500">{med.category}</span>
+                      <span className="text-[10px] sm:text-[11px] text-slate-500">{med.category}</span>
                     </div>
                   </button>
                 ))}
@@ -456,8 +456,8 @@ export const AddResetaModal: React.FC<AddResetaModalProps> = ({
 
             {/* Quick Pill Chips for Popular PH Meds */}
             {!selectedFdaMed && !searchQuery && (
-              <div className="flex flex-wrap gap-1.5 pt-1">
-                <span className="text-xs text-slate-500 self-center mr-1">
+              <div className="flex flex-wrap gap-1.5 pt-1 items-center">
+                <span className="text-[11px] sm:text-xs text-slate-500 shrink-0 mr-1">
                   {isTl ? 'Madalas i-reseta:' : 'Popular PH Meds:'}
                 </span>
                 {['fda-ph-001', 'fda-ph-030', 'fda-ph-009', 'fda-ph-023', 'fda-ph-037', 'fda-ph-019'].map(
@@ -469,7 +469,7 @@ export const AddResetaModal: React.FC<AddResetaModalProps> = ({
                         key={id}
                         type="button"
                         onClick={() => handleSelectMedicine(med)}
-                        className="text-xs bg-slate-100 hover:bg-teal-100 text-slate-700 hover:text-teal-900 font-medium px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer"
+                        className="text-[11px] sm:text-xs bg-slate-100 hover:bg-teal-100 text-slate-700 hover:text-teal-900 font-medium px-2 sm:px-2.5 py-1 rounded-lg transition-colors cursor-pointer shrink-0"
                       >
                         + {med.brandName.split('/')[0].trim()} {med.strength}
                       </button>
@@ -565,10 +565,10 @@ export const AddResetaModal: React.FC<AddResetaModalProps> = ({
                 {decodedBadges.map((b, i) => (
                   <span
                     key={i}
-                    className="inline-flex items-center gap-1 text-xs font-bold bg-amber-200/80 text-amber-950 px-2.5 py-1 rounded-full"
+                    className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold bg-amber-200/80 text-amber-950 px-2 py-0.5 rounded-full shrink-0"
                   >
-                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-800" />
-                    {b}
+                    <CheckCircle2 className="w-3 h-3 text-amber-800 shrink-0" />
+                    <span>{b}</span>
                   </span>
                 ))}
               </div>
@@ -672,17 +672,17 @@ export const AddResetaModal: React.FC<AddResetaModalProps> = ({
           </div>
 
           {/* STEP 5: Live Auto-Translated Clock Schedule Preview */}
-          <div className="bg-teal-900 text-white rounded-2xl p-4 space-y-3 shadow-md">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Clock className="w-5 h-5 text-teal-300" />
-                <h3 className="font-bold text-sm sm:text-base">
+          <div className="bg-teal-900 text-white rounded-2xl p-3 sm:p-4 space-y-3 shadow-md">
+            <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-teal-300 shrink-0" />
+                <h3 className="font-bold text-xs sm:text-sm md:text-base leading-tight">
                   {isTl
-                    ? 'Awtomatikong Oras ng Pag-inom (Schedule Preview)'
+                    ? 'Awtomatikong Oras ng Pag-inom'
                     : 'Your Translated Daily Clock Schedule'}
                 </h3>
               </div>
-              <span className="text-xs bg-teal-800 text-teal-200 px-2.5 py-1 rounded-full font-medium">
+              <span className="text-[10px] sm:text-xs bg-teal-800/90 border border-teal-700/60 text-teal-200 px-2 py-0.5 rounded-full font-semibold shrink-0 whitespace-nowrap">
                 {isTl ? 'Pwedeng baguhin ang oras' : 'Tap time to adjust'}
               </span>
             </div>
@@ -691,13 +691,13 @@ export const AddResetaModal: React.FC<AddResetaModalProps> = ({
               {customSlots.map((slot) => (
                 <div
                   key={slot.id}
-                  className="bg-white/10 backdrop-blur-xs border border-white/15 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2"
+                  className="bg-white/10 backdrop-blur-xs border border-white/15 rounded-xl p-2.5 sm:p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2"
                 >
-                  <div className="space-y-0.5">
-                    <div className="text-xs font-bold uppercase tracking-wider text-teal-300">
+                  <div className="space-y-0.5 min-w-0">
+                    <div className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-teal-300">
                       {isTl ? slot.labelTl : slot.labelEn}
                     </div>
-                    <div className="text-xs text-teal-50">
+                    <div className="text-[11px] sm:text-xs text-teal-50">
                       {isTl ? slot.reasonTl : slot.reasonEn}
                     </div>
                   </div>
@@ -707,7 +707,7 @@ export const AddResetaModal: React.FC<AddResetaModalProps> = ({
                       value={slot.time24}
                       onChange={(e) => handleSlotTimeChange(slot.id, e.target.value)}
                       aria-label={isTl ? slot.labelTl : slot.labelEn}
-                      className="min-h-[44px] bg-white text-slate-900 font-bold text-base px-3 py-1.5 rounded-xl border-2 border-teal-400 focus:outline-none"
+                      className="min-h-[40px] sm:min-h-[44px] bg-white text-slate-900 font-bold text-sm sm:text-base px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl border-2 border-teal-400 focus:outline-none"
                     />
                   </div>
                 </div>
@@ -740,22 +740,22 @@ export const AddResetaModal: React.FC<AddResetaModalProps> = ({
           </div>
 
           {/* STEP 6: PH Reseta "#" & "Tingi" Stock Tracker */}
-          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Package className="w-5 h-5 text-teal-700" />
-                <h3 className="text-sm font-bold text-slate-900">
+          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-3 sm:p-4 space-y-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2 min-w-0">
+                <Package className="w-4 h-4 sm:w-5 sm:h-5 text-teal-700 shrink-0" />
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900">
                   5. {isTl ? 'Bilang ng Gamot at "Tingi" Stock Tracker' : 'Duration & "Tingi" Pill Stock Tracker'}
                 </h3>
               </div>
-              <label className="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer">
+              <label className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 cursor-pointer shrink-0">
                 <input
                   type="checkbox"
                   checked={isMaintenance}
                   onChange={(e) => setIsMaintenance(e.target.checked)}
                   className="w-4 h-4 accent-teal-600 rounded"
                 />
-                {isTl ? 'Pang-Maintenance (Tuloy-tuloy)' : 'Ongoing Maintenance'}
+                <span>{isTl ? 'Pang-Maintenance (Tuloy-tuloy)' : 'Ongoing Maintenance'}</span>
               </label>
             </div>
 

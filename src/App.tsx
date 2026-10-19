@@ -773,7 +773,7 @@ export function App() {
               >
                 <span>{isTl ? 'Lahat (Pamilya)' : 'All Family'}</span>
                 <span
-                  className={`text-[10px] px-1 rounded-full ${
+                  className={`text-[10px] px-1.5 py-0.5 rounded-full shrink-0 ${
                     activeProfileId === 'all'
                       ? 'bg-amber-500/50 text-slate-950'
                       : 'bg-black/20 text-teal-100'
@@ -803,7 +803,7 @@ export function App() {
                     <span className={`w-2 h-2 rounded-full ${colorStyle.dot}`} />
                     <span className="truncate max-w-[110px]">{p.name}</span>
                     <span
-                      className={`text-[10px] px-1 rounded-full ${
+                      className={`text-[10px] px-1.5 py-0.5 rounded-full shrink-0 ${
                         isActive ? 'bg-teal-100 text-teal-900' : 'bg-black/20 text-teal-100'
                       }`}
                     >
@@ -912,10 +912,10 @@ export function App() {
         <section className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-xs border border-slate-200/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="space-y-1.5 flex-1 min-w-0">
             <div className="flex items-center gap-1.5">
-              <span className="text-[10px] sm:text-xs font-extrabold uppercase tracking-wider text-teal-700 bg-teal-50 border border-teal-200 px-2 py-0.5 rounded-full">
+              <span className="text-[10px] sm:text-xs font-extrabold uppercase tracking-wider text-teal-700 bg-teal-50 border border-teal-200 px-2 py-0.5 rounded-full shrink-0 whitespace-nowrap">
                 {isTl ? 'Schedule Ngayong Araw' : "Today's Plan"}
               </span>
-              <span className="text-[11px] text-slate-500 font-medium">{todayStr}</span>
+              <span className="text-[11px] text-slate-500 font-medium truncate">{todayStr}</span>
             </div>
             <h2 className="text-sm sm:text-lg font-extrabold text-slate-900 flex items-center gap-1.5 flex-wrap leading-tight">
               {takenDosesToday === totalDosesToday && totalDosesToday > 0 ? (
@@ -1139,7 +1139,7 @@ export function App() {
                       <div className="flex items-center gap-1 leading-none">
                         {tab.icon(isActive)}
                         <span
-                          className={`text-[10px] font-bold px-1 py-0.2 rounded-full leading-tight ${
+                          className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-tight shrink-0 ${
                             isActive
                               ? 'bg-teal-900/60 text-teal-100'
                               : isAllDone
@@ -1272,7 +1272,7 @@ export function App() {
                                   {/* Person Name Badge */}
                                   {profile && (
                                     <span
-                                      className={`text-[10px] font-extrabold px-1.5 py-0.2 rounded-md inline-flex items-center gap-1 shrink-0 ${
+                                      className={`text-[10px] font-extrabold px-1.5 py-0.5 rounded-md inline-flex items-center gap-1 shrink-0 whitespace-nowrap ${
                                         profileColorStyle?.badge || 'bg-slate-100 text-slate-800'
                                       }`}
                                     >
@@ -1292,7 +1292,7 @@ export function App() {
                                     {med.brandName}
                                   </h4>
                                   {med.classification === 'Rx' && (
-                                    <span className="text-[9px] font-bold px-1 py-0.2 rounded bg-rose-100 text-rose-800 shrink-0">
+                                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 shrink-0 whitespace-nowrap">
                                       Rx
                                     </span>
                                   )}

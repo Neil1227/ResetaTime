@@ -235,7 +235,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
                           {isTl ? 'Buong Pamilya (Lahat)' : 'All Family (Combined)'}
                         </h4>
                         {activeProfileId === 'all' && (
-                          <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-900 flex items-center gap-0.5">
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 flex items-center gap-0.5 shrink-0 whitespace-nowrap">
                             <CheckCircle2 className="w-3 h-3 text-amber-700" />
                             {isTl ? 'Aktibo' : 'Active'}
                           </span>
@@ -281,11 +281,11 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
                             <h4 className="font-extrabold text-xs sm:text-sm text-slate-900 truncate">
                               {p.name}
                             </h4>
-                            <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-slate-100 text-slate-600">
+                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 shrink-0 whitespace-nowrap">
                               {ROLE_OPTIONS.find((r) => r.role === p.role)?.labelTl || p.role}
                             </span>
                             {isSelected && (
-                              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-teal-100 text-teal-800 flex items-center gap-0.5">
+                              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-teal-100 text-teal-800 flex items-center gap-0.5 shrink-0 whitespace-nowrap">
                                 <CheckCircle2 className="w-3 h-3 text-teal-600" />
                                 {isTl ? 'Aktibo' : 'Active'}
                               </span>
