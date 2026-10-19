@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d9488" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="56" fill="url(#bg)" />
+  <circle cx="128" cy="128" r="78" fill="#ffffff" opacity="0.14" />
+  <rect x="68" y="54" width="120" height="148" rx="22" fill="#ffffff" />
+  <rect x="96" y="40" width="64" height="28" rx="12" fill="#ccfbf1" stroke="#0d9488" stroke-width="6" />
+  <!-- Rx Symbol & Clock Pill -->
+  <path d="M94 98h28M108 84v28" stroke="#0d9488" stroke-width="10" stroke-linecap="round" />
+  <rect x="92" y="132" width="72" height="32" rx="16" fill="#0d9488" />
+  <path d="M128 132v32" stroke="#ffffff" stroke-width="4" />
+  <circle cx="176" cy="176" r="34" fill="#f59e0b" stroke="#ffffff" stroke-width="6" />
+  <path d="M176 160v18l12 8" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+</svg>
