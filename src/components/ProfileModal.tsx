@@ -14,7 +14,8 @@ import {
   Info,
   Download,
   Upload,
-  ShieldCheck
+  ShieldCheck,
+  Share2
 } from 'lucide-react';
 import { DailyRoutine, PillColor, RelationshipRole, UserProfile } from '../types';
 import {
@@ -33,6 +34,7 @@ interface ProfileModalProps {
   onSaveProfile: (profile: UserProfile) => void;
   onDeleteProfile: (id: string) => void;
   onRestoreBackup?: (backup: ResetaTimeBackup) => void;
+  onOpenP2PTransfer?: () => void;
   language: 'taglish' | 'en';
 }
 
@@ -65,6 +67,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
   onSaveProfile,
   onDeleteProfile,
   onRestoreBackup,
+  onOpenP2PTransfer,
   language
 }) => {
   const isTl = language === 'taglish';
@@ -389,6 +392,19 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
                       className="hidden"
                     />
                   </label>
+                </div>
+                <div className="pt-2 border-t border-slate-200">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onClose();
+                      onOpenP2PTransfer?.();
+                    }}
+                    className="w-full h-8.5 px-3 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-[11px] sm:text-xs flex items-center justify-center gap-1.5 cursor-pointer shadow-xs transition-colors"
+                  >
+                    <Share2 className="w-3.5 h-3.5 text-slate-950 shrink-0" />
+                    <span>{isTl ? 'Ilipat sa Ibang Phone (ResetaDrop P2P)' : 'Transfer to Another Phone (ResetaDrop P2P)'}</span>
+                  </button>
                 </div>
                 {backupStatusMsg && (
                   <div className="text-[11px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-1.5 rounded-lg flex items-center gap-1.5">

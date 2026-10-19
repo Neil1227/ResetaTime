@@ -26,7 +26,8 @@ import {
   Info,
   Utensils,
   Users,
-  UserCheck
+  UserCheck,
+  Share2
 } from 'lucide-react';
 import {
   DailyRoutine,
@@ -74,6 +75,7 @@ import {
 import { AddResetaModal } from './components/AddResetaModal';
 import { RoutineModal } from './components/RoutineModal';
 import { ProfileModal } from './components/ProfileModal';
+import { P2PTransferModal } from './components/P2PTransferModal';
 
 type ActiveTab = 'timeline' | 'medicines' | 'decoder';
 type TimelinePeriod = 'morning' | 'afternoon' | 'evening' | 'bedtime' | 'all';
@@ -193,6 +195,8 @@ export function App() {
   const [selectedPeriod, setSelectedPeriod] = useState<TimelinePeriod>(getInitialTimelinePeriod);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isRoutineModalOpen, setIsRoutineModalOpen] = useState(false);
+  const [isP2PModalOpen, setIsP2PModalOpen] = useState(false);
+  const [p2pInitialPin, setP2pInitialPin] = useState('');
   const [notifStatus, setNotifStatus] = useState<NotificationPermission>(
     typeof window !== 'undefined' && 'Notification' in window ? Notification.permission : 'default'
   );
@@ -209,6 +213,17 @@ export function App() {
   useEffect(() => {
     saveActiveProfileId(activeProfileId);
   }, [activeProfileId]);
+
+  // Check URL hash for ResetaDrop pairing PIN (e.g., #drop=123456)
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const match = window.location.hash.match(/drop=([0-9]{6})/i);
+      if (match && match[1]) {
+        setP2pInitialPin(match[1]);
+        setIsP2PModalOpen(true);
+      }
+    }
+  }, []);
 
   // Derived active profile & profile map
   const activeProfile = useMemo(() => {
@@ -369,6 +384,60 @@ export function App() {
         : `Restored data for ${backup.profiles.length} family members!`,
       'success'
     );
+  };
+
+  // Import a single member and their prescriptions received via ResetaDrop P2P
+  const handleImportP2PSingleProfile = (newProfile: UserProfile, meds: PrescriptionItem[]) => {
+    const existing = profiles.find(
+      (p) => p.name.trim().toLowerCase() === newProfile.name.trim().toLowerCase()
+    );
+    const profileId = existing ? `${newProfile.id}-${Date.now().toString(36)}` : newProfile.id;
+    const finalProfile: UserProfile = {
+      ...newProfile,
+      id: profileId,
+      name: existing ? `${newProfile.name} (Sync)` : newProfile.name
+    };
+
+    const updatedProfiles = [...profiles, finalProfile];
+    setProfiles(updatedProfiles);
+    saveProfiles(updatedProfiles);
+
+    const remappedMeds = meds.map((m) => ({
+      ...m,
+      id: `${m.id}-${Date.now().toString(36)}`,
+      profileId: finalProfile.id
+    }));
+
+    const updatedMeds = [...remappedMeds, ...prescriptions];
+    setPrescriptions(updatedMeds);
+    savePrescriptions(updatedMeds);
+    setActiveProfileId(finalProfile.id);
+
+    playAlertChime();
+    showToast(
+      isTl
+        ? `Naidagdag si ${finalProfile.name} kasama ang ${meds.length} gamot via ResetaDrop!`
+        : `Added ${finalProfile.name} with ${meds.length} prescriptions via ResetaDrop!`,
+      'success'
+    );
+  };
+
+  // Import full family backup received via ResetaDrop P2P
+  const handleImportP2PFullBackup = (
+    newProfiles: UserProfile[],
+    newMeds: PrescriptionItem[],
+    newLogs?: Record<string, DoseLog>
+  ) => {
+    handleRestoreBackup({
+      version: 2,
+      app: 'resetatime-ph',
+      exportedAt: new Date().toISOString(),
+      activeProfileId: newProfiles[0]?.id || 'all',
+      profiles: newProfiles,
+      prescriptions: newMeds,
+      doseLogs: newLogs || {}
+    });
+    playAlertChime();
   };
 
   // Add a new prescription from AddResetaModal
@@ -814,16 +883,31 @@ export function App() {
               })}
             </div>
 
-            {/* Add / Manage Family Members CTA */}
-            <button
-              type="button"
-              onClick={() => setIsProfileModalOpen(true)}
-              className="h-6.5 px-2 rounded-full bg-white/15 hover:bg-white/25 border border-white/20 text-teal-100 hover:text-white text-[10px] font-extrabold flex items-center gap-1 shrink-0 cursor-pointer ml-auto"
-              title={isTl ? 'Pamahalaan ang mga miyembro' : 'Manage family members'}
-            >
-              <Plus className="w-3 h-3 text-amber-300" />
-              <span>{isTl ? 'Miyembro' : 'Member'}</span>
-            </button>
+            {/* Add / Manage Family Members & ResetaDrop CTA */}
+            <div className="flex items-center gap-1.5 ml-auto shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  setP2pInitialPin('');
+                  setIsP2PModalOpen(true);
+                }}
+                className="h-6.5 px-2 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 text-[10px] font-extrabold flex items-center gap-1 shrink-0 cursor-pointer shadow-xs transition-all"
+                title={isTl ? 'ResetaDrop: Ilipat ang gamot sa ibang phone (P2P)' : 'ResetaDrop: Transfer schedule to another phone (P2P)'}
+              >
+                <Share2 className="w-3 h-3 text-slate-950" />
+                <span>ResetaDrop</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsProfileModalOpen(true)}
+                className="h-6.5 px-2 rounded-full bg-white/15 hover:bg-white/25 border border-white/20 text-teal-100 hover:text-white text-[10px] font-extrabold flex items-center gap-1 shrink-0 cursor-pointer"
+                title={isTl ? 'Pamahalaan ang mga miyembro' : 'Manage family members'}
+              >
+                <Plus className="w-3 h-3 text-amber-300" />
+                <span>{isTl ? 'Miyembro' : 'Member'}</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -1928,7 +2012,20 @@ export function App() {
         onSaveProfile={handleSaveProfile}
         onDeleteProfile={handleDeleteProfile}
         onRestoreBackup={handleRestoreBackup}
+        onOpenP2PTransfer={() => setIsP2PModalOpen(true)}
         language={currentRoutine.language}
+      />
+
+      <P2PTransferModal
+        isOpen={isP2PModalOpen}
+        onClose={() => setIsP2PModalOpen(false)}
+        profiles={profiles}
+        prescriptions={prescriptions}
+        activeProfileId={activeProfileId}
+        isTl={isTl}
+        onImportSingleProfile={handleImportP2PSingleProfile}
+        onImportFullBackup={handleImportP2PFullBackup}
+        initialPin={p2pInitialPin}
       />
     </div>
   );

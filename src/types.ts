@@ -119,3 +119,15 @@ export interface DoseLog {
   takenAt?: string;
   snoozedUntil?: string;
 }
+
+export interface P2PTransferPayload {
+  version: 1;
+  app: 'ResetaTime-PH';
+  mode: 'single-profile' | 'all-family';
+  timestamp: string;
+  sourceDevice: string;
+  profile?: UserProfile;
+  prescriptions: PrescriptionItem[];
+  profiles?: UserProfile[];
+  doseLogs?: Record<string, DoseLog>;
+}
